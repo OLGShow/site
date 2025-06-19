@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Что такое тайм-менеджмент? - Тайм-менеджмент</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 54, 93, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ffb3ba;
+        }
+        
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+        
+        .definition-box {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+            border-left: 4px solid #ff6b35;
+        }
+        
+        .key-aspect {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+            border-left: 4px solid #1a365d;
+        }
+        
+        .key-aspect:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .key-aspect-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a365d, #2a4365);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+        
+        .highlight {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 120px;
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        .breadcrumb {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 100px; /* Увеличенный отступ для фиксированной навигации */
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/hourglass_digital.jpg') center/cover;
+            opacity: 0.1;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .image-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-white">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        Тайм-менеджмент
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="nav-link">Главная</a>
+                    <a href="problem-scale.html" class="nav-link">Проблема</a>
+                    <a href="definitions.html" class="nav-link bg-orange-500">Определения</a>
+                    <a href="psychology.html" class="nav-link">Психология</a>
+                    <a href="techniques.html" class="nav-link">Техники</a>
+                    <a href="implementation.html" class="nav-link">Внедрение</a>
+                    <a href="resources.html" class="nav-link">Ресурсы</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="text-5xl font-bold mb-4">Что такое тайм-менеджмент?</h1>
+            <p class="text-xl opacity-90">Основные понятия и принципы управления временем</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+        <div class="container mx-auto px-6">
+            <!-- Хлебные крошки -->
+            <div class="breadcrumb">
+                <div class="flex items-center text-sm text-gray-600">
+                    <a href="index.html" class="hover:text-orange-500">Главная</a>
+                    <i class="fas fa-chevron-right mx-2"></i>
+                    <span class="text-orange-500">Что такое тайм-менеджмент?</span>
+                </div>
+            </div>
+
+            <!-- Определение тайм-менеджмента -->
+            <div class="definition-box">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Определение</h2>
+                <p class="text-xl leading-relaxed">
+                    <span class="highlight">Тайм-менеджмент</span> — это процесс планирования и организации времени 
+                    для повышения эффективности, продуктивности и качества жизни. Это не просто управление временем, 
+                    а управление собой и своими действиями во времени.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Левая колонка: ключевые аспекты -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Ключевые аспекты тайм-менеджмента:</h3>
+                    
+                    <div class="key-aspect">
+                        <div class="key-aspect-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-gray-800">Планирование</h4>
+                        <p class="text-gray-600">Определение целей и задач, составление планов действий и расписаний для достижения поставленных целей.</p>
+                    </div>
+                    
+                    <div class="key-aspect">
+                        <div class="key-aspect-icon">
+                            <i class="fas fa-sort-amount-down"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-gray-800">Приоритизация</h4>
+                        <p class="text-gray-600">Выделение важных и срочных задач, умение отличать главное от второстепенного.</p>
+                    </div>
+                    
+                    <div class="key-aspect">
+                        <div class="key-aspect-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-gray-800">Фокусировка</h4>
+                        <p class="text-gray-600">Концентрация на одной задаче, избегание многозадачности и отвлекающих факторов.</p>
+                    </div>
+                    
+                    <div class="key-aspect">
+                        <div class="key-aspect-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-gray-800">Анализ</h4>
+                        <p class="text-gray-600">Оценка эффективности использования времени, выявление проблемных зон и возможностей для улучшения.</p>
+                    </div>
+                </div>
+                
+                <!-- Правая колонка: изображение и цитата -->
+                <div class="space-y-8">
+                    <div class="image-container">
+                        <img src="assets/hourglass_digital.jpg" alt="Тайм-менеджмент" class="rounded-lg mx-auto" style="max-height: 300px;">
+                        <p class="text-sm text-gray-500 mt-4">Время — самый ценный ресурс</p>
+                    </div>
+                    
+                    <div class="quote-box">
+                        <p class="text-xl italic mb-4 relative z-10">
+                            "Время — самый ограниченный капитал, и если не можешь им распоряжаться, 
+                            не сможешь распоряжаться ничем другим."
+                        </p>
+                        <p class="text-right font-semibold relative z-10">— Питер Друкер</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div class="bg-white rounded-16 p-8 shadow-lg mb-12">
+                <h3 class="text-2xl font-semibold mb-6 text-gray-800">Почему тайм-менеджмент важен?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-orange-500">Личные преимущества:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Снижение уровня стресса и тревожности
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Повышение продуктивности и эффективности
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Лучший баланс между работой и личной жизнью
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Больше времени для отдыха и хобби
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-orange-500">Профессиональные преимущества:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Соблюдение дедлайнов и обязательств
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Повышение качества выполняемой работы
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Карьерный рост и профессиональное развитие
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                Улучшение репутации и доверия коллег
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основные мифы о тайм-менеджменте -->
+            <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mb-12">
+                <h3 class="text-xl font-semibold mb-4 text-red-800">Распространенные мифы о тайм-менеджменте:</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-times text-red-500 mr-3 mt-1"></i>
+                        <div>
+                            <strong class="text-red-700">Миф:</strong> Тайм-менеджмент делает жизнь скучной и механистичной<br>
+                            <span class="text-red-600">Реальность:</span> Правильное планирование освобождает время для спонтанности и творчества
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-times text-red-500 mr-3 mt-1"></i>
+                        <div>
+                            <strong class="text-red-700">Миф:</strong> Нужно планировать каждую минуту<br>
+                            <span class="text-red-600">Реальность:</span> Эффективное планирование включает буферное время и гибкость
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-times text-red-500 mr-3 mt-1"></i>
+                        <div>
+                            <strong class="text-red-700">Миф:</strong> Тайм-менеджмент подходит только для бизнеса<br>
+                            <span class="text-red-600">Реальность:</span> Принципы применимы во всех сферах жизни
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Навигация -->
+            <div class="flex justify-between items-center bg-white rounded-16 p-6 shadow-lg">
+                <a href="problem-scale.html" class="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Масштаб проблемы
+                </a>
+                <a href="psychology.html" class="flex items-center bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    Психология прокрастинации
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+    <script src="script.js"></script>
+    <script src="presentation-nav.js"></script>
+</body>
+</html>
+

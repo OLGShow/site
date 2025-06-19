@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практические техники - Тайм-менеджмент</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 54, 93, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ffb3ba;
+        }
+        
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+        
+        .technique-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-left: 4px solid;
+        }
+        
+        .technique-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .technique-card.pareto { border-left-color: #ff6b35; }
+        .technique-card.eisenhower { border-left-color: #4299e1; }
+        .technique-card.pomodoro { border-left-color: #48bb78; }
+        .technique-card.frog { border-left-color: #9f7aea; }
+        .technique-card.detox { border-left-color: #ed64a6; }
+        .technique-card.two-minute { border-left-color: #38b2ac; }
+        
+        .technique-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: white;
+        }
+        
+        .icon-orange { background: linear-gradient(135deg, #ff6b35, #e53e3e); }
+        .icon-blue { background: linear-gradient(135deg, #4299e1, #3182ce); }
+        .icon-green { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .icon-purple { background: linear-gradient(135deg, #9f7aea, #805ad5); }
+        .icon-pink { background: linear-gradient(135deg, #ed64a6, #d53f8c); }
+        .icon-teal { background: linear-gradient(135deg, #38b2ac, #319795); }
+        
+        .technique-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 16px;
+        }
+        
+        .technique-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        
+        .technique-link {
+            display: inline-flex;
+            align-items: center;
+            color: #ff6b35;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .technique-link:hover {
+            color: #e53e3e;
+            transform: translateX(5px);
+        }
+        
+        .breadcrumb {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 100px; /* Увеличенный отступ для фиксированной навигации */
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/management_symbols.jpg') center/cover;
+            opacity: 0.1;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 16px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-white">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        Тайм-менеджмент
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="nav-link">Главная</a>
+                    <a href="problem-scale.html" class="nav-link">Проблема</a>
+                    <a href="definitions.html" class="nav-link">Определения</a>
+                    <a href="psychology.html" class="nav-link">Психология</a>
+                    <a href="techniques.html" class="nav-link bg-orange-500">Техники</a>
+                    <a href="implementation.html" class="nav-link">Внедрение</a>
+                    <a href="resources.html" class="nav-link">Ресурсы</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="text-5xl font-bold mb-4">Практические техники</h1>
+            <p class="text-xl opacity-90">Проверенные методы повышения продуктивности и борьбы с прокрастинацией</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+        <div class="container mx-auto px-6">
+            <!-- Хлебные крошки -->
+            <div class="breadcrumb">
+                <div class="flex items-center text-sm text-gray-600">
+                    <a href="index.html" class="hover:text-orange-500">Главная</a>
+                    <i class="fas fa-chevron-right mx-2"></i>
+                    <span class="text-orange-500">Практические техники</span>
+                </div>
+            </div>
+
+            <!-- Введение -->
+            <div class="bg-white rounded-16 p-8 shadow-lg mb-12 text-center">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Основные техники тайм-менеджмента</h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Изучите проверенные методы, которые помогут вам повысить продуктивность, снизить стресс 
+                    и эффективно управлять своим временем. Нажмите на любую технику для подробного изучения.
+                </p>
+            </div>
+
+            <!-- Сетка техник -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Принцип Парето -->
+                <div class="technique-card pareto" onclick="openModal('paretoModal')">
+                    <div class="technique-icon icon-orange">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="technique-title">Принцип Парето (80/20)</h3>
+                    <p class="technique-description">
+                        20% усилий дают 80% результата. Определите ключевые задачи, которые приносят наибольшую отдачу, 
+                        и сосредоточьтесь на них.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+                
+                <!-- Матрица Эйзенхауэра -->
+                <div class="technique-card eisenhower" onclick="openModal('eisenhowerModal')">
+                    <div class="technique-icon icon-blue">
+                        <i class="fas fa-th-large"></i>
+                    </div>
+                    <h3 class="technique-title">Матрица Эйзенхауэра</h3>
+                    <p class="technique-description">
+                        Распределение задач по четырем квадрантам: срочные и важные, важные но не срочные, 
+                        срочные но не важные, не срочные и не важные.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+                
+                <!-- Метод Помидора -->
+                <div class="technique-card pomodoro" onclick="openModal('pomodoroModal')">
+                    <div class="technique-icon icon-green">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="technique-title">Метод Помидора</h3>
+                    <p class="technique-description">
+                        Работа в интервалах по 25 минут с короткими перерывами. Помогает поддерживать концентрацию 
+                        и избегать выгорания.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+                
+                <!-- Eat That Frog -->
+                <div class="technique-card frog" onclick="openModal('frogModal')">
+                    <div class="technique-icon icon-purple">
+                        <i class="fas fa-frog"></i>
+                    </div>
+                    <h3 class="technique-title">Eat That Frog</h3>
+                    <p class="technique-description">
+                        Начинайте день с самой сложной и неприятной задачи. После её выполнения остальные задачи 
+                        будут казаться проще.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+                
+                <!-- Цифровой детокс -->
+                <div class="technique-card detox" onclick="openModal('detoxModal')">
+                    <div class="technique-icon icon-pink">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="technique-title">Цифровой детокс</h3>
+                    <p class="technique-description">
+                        Регулярные периоды отключения от цифровых устройств для снижения информационной перегрузки 
+                        и повышения концентрации.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+                
+                <!-- Правило двух минут -->
+                <div class="technique-card two-minute" onclick="openModal('twoMinuteModal')">
+                    <div class="technique-icon icon-teal">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <h3 class="technique-title">Правило двух минут</h3>
+                    <p class="technique-description">
+                        Если задача занимает менее двух минут, выполните её сразу, не откладывая. 
+                        Это помогает избежать накопления мелких задач.
+                    </p>
+                    <div class="technique-link">
+                        Изучить подробнее <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Сравнительная таблица -->
+            <div class="bg-white rounded-16 p-8 shadow-lg mb-12">
+                <h3 class="text-2xl font-semibold mb-6 text-gray-800">Сравнение техник</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-3 px-4">Техника</th>
+                                <th class="text-left py-3 px-4">Сложность</th>
+                                <th class="text-left py-3 px-4">Время освоения</th>
+                                <th class="text-left py-3 px-4">Лучше всего для</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">Принцип Парето</td>
+                                <td class="py-3 px-4">Средняя</td>
+                                <td class="py-3 px-4">1-2 недели</td>
+                                <td class="py-3 px-4">Приоритизации задач</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">Матрица Эйзенхауэра</td>
+                                <td class="py-3 px-4">Легкая</td>
+                                <td class="py-3 px-4">3-5 дней</td>
+                                <td class="py-3 px-4">Планирования дня</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">Метод Помидора</td>
+                                <td class="py-3 px-4">Легкая</td>
+                                <td class="py-3 px-4">1 неделя</td>
+                                <td class="py-3 px-4">Концентрации</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">Eat That Frog</td>
+                                <td class="py-3 px-4">Средняя</td>
+                                <td class="py-3 px-4">2-3 недели</td>
+                                <td class="py-3 px-4">Борьбы с прокрастинацией</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 font-medium">Цифровой детокс</td>
+                                <td class="py-3 px-4">Высокая</td>
+                                <td class="py-3 px-4">1-2 месяца</td>
+                                <td class="py-3 px-4">Снижения отвлечений</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Правило двух минут</td>
+                                <td class="py-3 px-4">Легкая</td>
+                                <td class="py-3 px-4">1-2 дня</td>
+                                <td class="py-3 px-4">Обработки мелких задач</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Навигация -->
+            <div class="flex justify-between items-center bg-white rounded-16 p-6 shadow-lg">
+                <a href="psychology.html" class="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Психология прокрастинации
+                </a>
+                <a href="implementation.html" class="flex items-center bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    Шаги по внедрению
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна для каждой техники -->
+    
+    <!-- Модальное окно Парето -->
+    <div id="paretoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('paretoModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Принцип Парето (80/20)</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <img src="assets/pareto_principle.jpg" alt="Принцип Парето" class="rounded-lg mb-4 w-full">
+                    <p class="text-gray-600 mb-4">
+                        Принцип Парето гласит, что 80% результатов проистекают из 20% усилий. 
+                        Этот принцип был сформулирован итальянским экономистом Вильфредо Парето.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Как применять:</h3>
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4 class="font-semibold">Анализ задач</h4>
+                            <p class="text-sm text-gray-600">Определите 20% задач, которые приносят 80% результатов</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4 class="font-semibold">Фокус на важном</h4>
+                            <p class="text-sm text-gray-600">Сосредоточьтесь на ключевых задачах в первую очередь</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4 class="font-semibold">Делегирование</h4>
+                            <p class="text-sm text-gray-600">Делегируйте или исключите менее важные 80% задач</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Эйзенхауэра -->
+    <div id="eisenhowerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('eisenhowerModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Матрица Эйзенхауэра</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <img src="assets/eisenhower_matrix.png" alt="Матрица Эйзенхауэра" class="rounded-lg mb-4 w-full">
+                    <p class="text-gray-600 mb-4">
+                        Матрица для приоритизации задач, основанная на их срочности и важности. 
+                        Названа в честь 34-го президента США Дуайта Эйзенхауэра.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Четыре квадранта:</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-red-50 border-l-4 border-red-500 rounded">
+                            <h4 class="font-semibold text-red-700">Срочно и важно</h4>
+                            <p class="text-sm text-red-600">Делать немедленно</p>
+                        </div>
+                        <div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                            <h4 class="font-semibold text-blue-700">Важно, но не срочно</h4>
+                            <p class="text-sm text-blue-600">Планировать</p>
+                        </div>
+                        <div class="p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded">
+                            <h4 class="font-semibold text-yellow-700">Срочно, но не важно</h4>
+                            <p class="text-sm text-yellow-600">Делегировать</p>
+                        </div>
+                        <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                            <h4 class="font-semibold text-green-700">Не срочно и не важно</h4>
+                            <p class="text-sm text-green-600">Исключить</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Помидора -->
+    <div id="pomodoroModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('pomodoroModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Метод Помидора</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <img src="assets/pomodoro_technique.jpg" alt="Метод Помидора" class="rounded-lg mb-4 w-full">
+                    <p class="text-gray-600 mb-4">
+                        Техника управления временем, разработанная Франческо Чирилло. 
+                        Основана на работе с периодами фокусированной работы.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="pomodoroChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Алгоритм работы:</h3>
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4 class="font-semibold">Выберите задачу</h4>
+                            <p class="text-sm text-gray-600">Определите задачу для работы</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4 class="font-semibold">25 минут работы</h4>
+                            <p class="text-sm text-gray-600">Установите таймер на 25 минут</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4 class="font-semibold">5 минут перерыва</h4>
+                            <p class="text-sm text-gray-600">Короткий отдых после "помидора"</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4 class="font-semibold">Длинный перерыв</h4>
+                            <p class="text-sm text-gray-600">15-30 минут после 4 "помидоров"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Eat That Frog -->
+    <div id="frogModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('frogModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Техника "Eat That Frog"</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <img src="assets/eat_that_frog.png" alt="Eat That Frog" class="rounded-lg mb-4 w-full">
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <p class="italic text-green-800">
+                            "Если первым делом с утра съесть живую лягушку, остаток дня обещает быть чудесным, 
+                            поскольку худшее на сегодня уже позади."
+                        </p>
+                        <p class="text-right font-semibold mt-2">— Марк Твен</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Как применять:</h3>
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4 class="font-semibold">Определите "лягушку"</h4>
+                            <p class="text-sm text-gray-600">Найдите самую сложную задачу дня</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4 class="font-semibold">Подготовьтесь</h4>
+                            <p class="text-sm text-gray-600">Планируйте "лягушку" с вечера</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4 class="font-semibold">Начните утром</h4>
+                            <p class="text-sm text-gray-600">Первым делом приступайте к сложной задаче</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4 class="font-semibold">Доведите до конца</h4>
+                            <p class="text-sm text-gray-600">Не отвлекайтесь до завершения</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Цифрового детокса -->
+    <div id="detoxModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('detoxModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Цифровой детокс</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <div class="chart-container">
+                        <canvas id="distractionChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center p-3 bg-orange-50 rounded-lg">
+                            <div class="text-2xl font-bold text-orange-600">150+</div>
+                            <div class="text-xs text-orange-700">проверок телефона в день</div>
+                        </div>
+                        <div class="text-center p-3 bg-blue-50 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">23%</div>
+                            <div class="text-xs text-blue-700">повышение продуктивности</div>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600">4.1ч</div>
+                            <div class="text-xs text-green-700">экранного времени в день</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Стратегии детокса:</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                            <h4 class="font-semibold text-blue-700">Временные границы</h4>
+                            <p class="text-sm text-blue-600">Определите периоды без гаджетов</p>
+                        </div>
+                        <div class="p-3 bg-red-50 border-l-4 border-red-500 rounded">
+                            <h4 class="font-semibold text-red-700">Отключение уведомлений</h4>
+                            <p class="text-sm text-red-600">Минимизируйте цифровые отвлечения</p>
+                        </div>
+                        <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                            <h4 class="font-semibold text-green-700">Зоны без гаджетов</h4>
+                            <p class="text-sm text-green-600">Спальня, обеденный стол</p>
+                        </div>
+                        <div class="p-3 bg-purple-50 border-l-4 border-purple-500 rounded">
+                            <h4 class="font-semibold text-purple-700">Цифровые выходные</h4>
+                            <p class="text-sm text-purple-600">Полный отказ от устройств</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Правила двух минут -->
+    <div id="twoMinuteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('twoMinuteModal')">&times;</span>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Правило двух минут</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <div class="bg-teal-50 p-6 rounded-lg border-l-4 border-teal-500 mb-4">
+                        <h3 class="text-xl font-semibold text-teal-800 mb-2">Основной принцип</h3>
+                        <p class="text-teal-700">
+                            Если задача занимает менее двух минут, выполните её сразу, не откладывая на потом.
+                        </p>
+                    </div>
+                    <h4 class="font-semibold mb-3">Примеры двухминутных задач:</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Ответить на короткое сообщение
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Убрать документы в папку
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Записать важную мысль
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            Назначить встречу
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Преимущества:</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                            <h4 class="font-semibold text-green-700">Предотвращение накопления</h4>
+                            <p class="text-sm text-green-600">Мелкие задачи не превращаются в большую проблему</p>
+                        </div>
+                        <div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                            <h4 class="font-semibold text-blue-700">Снижение стресса</h4>
+                            <p class="text-sm text-blue-600">Меньше незавершенных дел в голове</p>
+                        </div>
+                        <div class="p-3 bg-purple-50 border-l-4 border-purple-500 rounded">
+                            <h4 class="font-semibold text-purple-700">Повышение эффективности</h4>
+                            <p class="text-sm text-purple-600">Больше времени для важных задач</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функции для модальных окон
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Инициализация графиков при открытии модального окна
+            if (modalId === 'pomodoroModal') {
+                setTimeout(initPomodoroChart, 100);
+            } else if (modalId === 'detoxModal') {
+                setTimeout(initDistractionChart, 100);
+            }
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // График для метода Помидора
+        function initPomodoroChart() {
+            const ctx = document.getElementById('pomodoroChart');
+            if (!ctx) return;
+            
+            new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Без метода Помидора', 'С методом Помидора'],
+                    datasets: [{
+                        label: 'Продуктивность (%)',
+                        data: [65, 90],
+                        backgroundColor: ['#1a365d', '#ff6b35'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Влияние метода Помидора на продуктивность'
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+        
+        // График для цифрового детокса
+        function initDistractionChart() {
+            const ctx = document.getElementById('distractionChart');
+            if (!ctx) return;
+            
+            new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Социальные сети', 'Email', 'Мессенджеры', 'Новости', 'Видео'],
+                    datasets: [{
+                        label: 'Минуты отвлечений в день',
+                        data: [72, 45, 38, 32, 65],
+                        backgroundColor: ['#ff6b35', '#1a365d', '#4299e1', '#48bb78', '#ed64a6'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Источники цифровых отвлечений'
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+    <script src="script.js"></script>
+    <script src="presentation-nav.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полезные ресурсы - Тайм-менеджмент</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 54, 93, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ffb3ba;
+        }
+        
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-left: 4px solid;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .resource-card.books { border-left-color: #4299e1; }
+        .resource-card.apps { border-left-color: #48bb78; }
+        .resource-card.courses { border-left-color: #ff6b35; }
+        .resource-card.tools { border-left-color: #9f7aea; }
+        
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .icon-blue { background: linear-gradient(135deg, #4299e1, #3182ce); }
+        .icon-green { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .icon-orange { background: linear-gradient(135deg, #ff6b35, #e53e3e); }
+        .icon-purple { background: linear-gradient(135deg, #9f7aea, #805ad5); }
+        
+        .resource-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 12px;
+        }
+        
+        .resource-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4a5568;
+            flex-grow: 1;
+            margin-bottom: 16px;
+        }
+        
+        .resource-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .resource-item:hover {
+            background: #edf2f7;
+            border-left-color: #ff6b35;
+            transform: translateX(5px);
+        }
+        
+        .resource-item h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+        
+        .resource-item p {
+            font-size: 14px;
+            color: #718096;
+            margin: 0;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+        
+        .rating .stars {
+            color: #f6ad55;
+            margin-right: 8px;
+        }
+        
+        .rating .score {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .breadcrumb {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 100px; /* Увеличенный отступ для фиксированной навигации */
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/management_symbols.jpg') center/cover;
+            opacity: 0.1;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .category-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .category-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 8px;
+        }
+        
+        .category-subtitle {
+            font-size: 16px;
+            color: #718096;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #e6fffa, #f0fff4);
+            border-left: 4px solid #38b2ac;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-white">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        Тайм-менеджмент
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="nav-link">Главная</a>
+                    <a href="problem-scale.html" class="nav-link">Проблема</a>
+                    <a href="definitions.html" class="nav-link">Определения</a>
+                    <a href="psychology.html" class="nav-link">Психология</a>
+                    <a href="techniques.html" class="nav-link">Техники</a>
+                    <a href="implementation.html" class="nav-link">Внедрение</a>
+                    <a href="resources.html" class="nav-link bg-orange-500">Ресурсы</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="text-5xl font-bold mb-4">Полезные ресурсы</h1>
+            <p class="text-xl opacity-90">Книги, приложения, курсы и инструменты для изучения тайм-менеджмента</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+        <div class="container mx-auto px-6">
+            <!-- Хлебные крошки -->
+            <div class="breadcrumb">
+                <div class="flex items-center text-sm text-gray-600">
+                    <a href="index.html" class="hover:text-orange-500">Главная</a>
+                    <i class="fas fa-chevron-right mx-2"></i>
+                    <span class="text-orange-500">Полезные ресурсы</span>
+                </div>
+            </div>
+
+            <!-- Книги -->
+            <section class="mb-16">
+                <div class="category-header">
+                    <h2 class="category-title">📚 Рекомендуемые книги</h2>
+                    <p class="category-subtitle">Лучшие книги по тайм-менеджменту и продуктивности</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="resource-card books">
+                        <div class="resource-icon icon-blue">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="resource-title">Классика жанра</h3>
+                        <div class="resource-description">Фундаментальные работы по управлению временем</div>
+                        
+                        <div class="resource-item">
+                            <h4>"Съешьте лягушку!" - Брайан Трейси</h4>
+                            <p>21 способ научиться успевать</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.8/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"7 навыков высокоэффективных людей" - Стивен Кови</h4>
+                            <p>Мощные инструменты развития личности</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.9/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"Как привести дела в порядок" - Дэвид Аллен</h4>
+                            <p>Методика GTD (Getting Things Done)</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card books">
+                        <div class="resource-icon icon-blue">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="resource-title">Психология продуктивности</h3>
+                        <div class="resource-description">Книги о психологических аспектах управления временем</div>
+                        
+                        <div class="resource-item">
+                            <h4>"Сила воли" - Келли Макгонигал</h4>
+                            <p>Как развить и укрепить самоконтроль</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.7/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"Поток" - Михай Чиксентмихайи</h4>
+                            <p>Психология оптимального переживания</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.5/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"Атомные привычки" - Джеймс Клир</h4>
+                            <p>Как приобрести хорошие привычки и избавиться от плохих</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.8/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card books">
+                        <div class="resource-icon icon-blue">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="resource-title">Современные подходы</h3>
+                        <div class="resource-description">Новые методы и техники для цифровой эпохи</div>
+                        
+                        <div class="resource-item">
+                            <h4>"Цифровой минимализм" - Кэл Ньюпорт</h4>
+                            <p>Технологии на службе осмысленной жизни</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.4/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"Джедайские техники" - Максим Дорофеев</h4>
+                            <p>Как воспитать свою обезьяну, опустошить инбокс и сберечь мыслетопливо</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.3/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>"Эссенциализм" - Грег МакКеон</h4>
+                            <p>Путь к простоте</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Приложения -->
+            <section class="mb-16">
+                <div class="category-header">
+                    <h2 class="category-title">📱 Полезные приложения</h2>
+                    <p class="category-subtitle">Мобильные и веб-приложения для повышения продуктивности</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="resource-card apps">
+                        <div class="resource-icon icon-green">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="resource-title">Планирование задач</h3>
+                        <div class="resource-description">Приложения для организации и планирования дел</div>
+                        
+                        <div class="resource-item">
+                            <h4>Todoist</h4>
+                            <p>Мощный планировщик задач с проектами и метками</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.7/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Any.do</h4>
+                            <p>Простой и элегантный список дел</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.5/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Microsoft To Do</h4>
+                            <p>Бесплатный планировщик от Microsoft</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.3/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card apps">
+                        <div class="resource-icon icon-green">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="resource-title">Учет времени</h3>
+                        <div class="resource-description">Трекеры времени и приложения для анализа активности</div>
+                        
+                        <div class="resource-item">
+                            <h4>RescueTime</h4>
+                            <p>Автоматический учет времени на компьютере и телефоне</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.4/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Toggl Track</h4>
+                            <p>Простой и удобный трекер времени</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.6/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Forest</h4>
+                            <p>Геймификация фокуса - выращивайте виртуальный лес</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.5/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card apps">
+                        <div class="resource-icon icon-green">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="resource-title">Фокус и концентрация</h3>
+                        <div class="resource-description">Приложения для улучшения концентрации и борьбы с отвлечениями</div>
+                        
+                        <div class="resource-item">
+                            <h4>Freedom</h4>
+                            <p>Блокировка отвлекающих сайтов и приложений</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.3/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Be Focused</h4>
+                            <p>Таймер для техники Помидора</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.4/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Brain.fm</h4>
+                            <p>Музыка для концентрации, основанная на нейронауке</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.2/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Онлайн-курсы -->
+            <section class="mb-16">
+                <div class="category-header">
+                    <h2 class="category-title">🎓 Онлайн-курсы</h2>
+                    <p class="category-subtitle">Структурированное обучение тайм-менеджменту</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="resource-card courses">
+                        <div class="resource-icon icon-orange">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="resource-title">Русскоязычные курсы</h3>
+                        <div class="resource-description">Курсы на русском языке от ведущих образовательных платформ</div>
+                        
+                        <div class="resource-item">
+                            <h4>Coursera - "Управление временем"</h4>
+                            <p>Курс от ВШЭ по основам тайм-менеджмента</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.5/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Нетология - "Тайм-менеджмент"</h4>
+                            <p>Практический курс по управлению временем</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.3/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Skillbox - "Личная эффективность"</h4>
+                            <p>Комплексный курс по продуктивности</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.4/5</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card courses">
+                        <div class="resource-icon icon-orange">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="resource-title">Международные курсы</h3>
+                        <div class="resource-description">Курсы от ведущих мировых университетов и экспертов</div>
+                        
+                        <div class="resource-item">
+                            <h4>Coursera - "Learning How to Learn"</h4>
+                            <p>Курс от UC San Diego об эффективном обучении</p>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="score">4.8/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>edX - "Introduction to Personal Productivity"</h4>
+                            <p>Основы личной продуктивности от Microsoft</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.4/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Udemy - "Time Management Mastery"</h4>
+                            <p>Комплексный курс по мастерству управления временем</p>
+                            <div class="rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="score">4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Инструменты -->
+            <section class="mb-16">
+                <div class="category-header">
+                    <h2 class="category-title">🛠️ Полезные инструменты</h2>
+                    <p class="category-subtitle">Веб-сервисы и инструменты для организации работы</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="resource-card tools">
+                        <div class="resource-icon icon-purple">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3 class="resource-title">Управление проектами</h3>
+                        <div class="resource-description">Инструменты для планирования и управления проектами</div>
+                        
+                        <div class="resource-item">
+                            <h4>Trello</h4>
+                            <p>Канбан-доски для визуального управления задачами</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Asana</h4>
+                            <p>Мощная платформа для управления проектами и командной работы</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Notion</h4>
+                            <p>Универсальное рабочее пространство для заметок, задач и планирования</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card tools">
+                        <div class="resource-icon icon-purple">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="resource-title">Календари и планирование</h3>
+                        <div class="resource-description">Инструменты для планирования времени и встреч</div>
+                        
+                        <div class="resource-item">
+                            <h4>Google Calendar</h4>
+                            <p>Бесплатный календарь с интеграцией в экосистему Google</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Calendly</h4>
+                            <p>Автоматизация планирования встреч и звонков</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>TimeTree</h4>
+                            <p>Совместный календарь для семьи и команды</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-card tools">
+                        <div class="resource-icon icon-purple">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="resource-title">Аналитика и отчеты</h3>
+                        <div class="resource-description">Инструменты для анализа продуктивности</div>
+                        
+                        <div class="resource-item">
+                            <h4>Time Doctor</h4>
+                            <p>Детальный учет времени с скриншотами и отчетами</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Clockify</h4>
+                            <p>Бесплатный трекер времени для команд</p>
+                        </div>
+                        
+                        <div class="resource-item">
+                            <h4>Harvest</h4>
+                            <p>Учет времени с интеграцией в системы выставления счетов</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Полезные советы -->
+            <div class="tip-box">
+                <div class="flex items-start">
+                    <i class="fas fa-lightbulb text-teal-600 text-2xl mr-3 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-teal-800 mb-2">Совет эксперта:</p>
+                        <p class="text-teal-700 leading-relaxed">
+                            Не пытайтесь использовать все инструменты сразу. Выберите 2-3 приложения, которые лучше всего 
+                            подходят вашему стилю работы, и изучите их досконально. Лучше мастерски владеть несколькими 
+                            инструментами, чем поверхностно знать множество.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Навигация -->
+            <div class="flex justify-between items-center bg-white rounded-16 p-6 shadow-lg">
+                <a href="implementation.html" class="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Шаги по внедрению
+                </a>
+                <a href="index.html" class="flex items-center bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    Вернуться на главную
+                    <i class="fas fa-home ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+    <script src="script.js"></script>
+    <script src="presentation-nav.js"></script>
+</body>
+</html>
+

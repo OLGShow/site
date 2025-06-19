@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психология прокрастинации - Тайм-менеджмент</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 54, 93, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ffb3ba;
+        }
+        
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+        
+        .brain-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .brain-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .brain-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .brain-title i {
+            margin-right: 12px;
+            font-size: 24px;
+        }
+        
+        .procrastination-type {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .procrastination-type:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .type-1 {
+            border-left-color: #4299e1;
+            background: linear-gradient(135deg, #ebf8ff, #f7fafc);
+        }
+        
+        .type-2 {
+            border-left-color: #ff6b35;
+            background: linear-gradient(135deg, #fef5f5, #f7fafc);
+        }
+        
+        .type-3 {
+            border-left-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4, #f7fafc);
+        }
+        
+        .highlight {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+        
+        .breadcrumb {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 100px; /* Увеличенный отступ для фиксированной навигации */
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/three_brains.webp') center/cover;
+            opacity: 0.1;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .image-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fef6e4, #fff8e1);
+            border-left: 4px solid #f6ad55;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-white">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        Тайм-менеджмент
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="nav-link">Главная</a>
+                    <a href="problem-scale.html" class="nav-link">Проблема</a>
+                    <a href="definitions.html" class="nav-link">Определения</a>
+                    <a href="psychology.html" class="nav-link bg-orange-500">Психология</a>
+                    <a href="techniques.html" class="nav-link">Техники</a>
+                    <a href="implementation.html" class="nav-link">Внедрение</a>
+                    <a href="resources.html" class="nav-link">Ресурсы</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Заголовок страницы -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1 class="text-5xl font-bold mb-4">Психология прокрастинации</h1>
+            <p class="text-xl opacity-90">Нейробиологические основы и механизмы откладывания дел</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+        <div class="container mx-auto px-6">
+            <!-- Хлебные крошки -->
+            <div class="breadcrumb">
+                <div class="flex items-center text-sm text-gray-600">
+                    <a href="index.html" class="hover:text-orange-500">Главная</a>
+                    <i class="fas fa-chevron-right mx-2"></i>
+                    <span class="text-orange-500">Психология прокрастинации</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Левая колонка: Трехчастный мозг -->
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Нейробиологические основы прокрастинации</h2>
+                    
+                    <div class="image-container">
+                        <img src="assets/three_brains.webp" alt="Трехчастный мозг" class="rounded-lg mx-auto" style="height: 200px;">
+                        <p class="text-sm text-gray-500 mt-4">Модель трехчастного мозга</p>
+                    </div>
+                    
+                    <div class="brain-section">
+                        <div class="brain-title">
+                            <i class="fas fa-brain text-red-600"></i>
+                            <span>Рептильный мозг (Ствол мозга)</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Отвечает за базовые инстинкты и реакцию "бей или беги". Стремится к немедленному 
+                            удовольствию и избеганию дискомфорта. Именно эта часть мозга заставляет нас 
+                            откладывать неприятные задачи.
+                        </p>
+                    </div>
+                    
+                    <div class="brain-section">
+                        <div class="brain-title">
+                            <i class="fas fa-brain text-purple-600"></i>
+                            <span>Лимбическая система</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Центр эмоций и формирования привычек. Создает эмоциональные блоки и страхи, 
+                            связанные с выполнением задач. Отвечает за мотивацию и эмоциональную оценку ситуаций.
+                        </p>
+                    </div>
+                    
+                    <div class="brain-section">
+                        <div class="brain-title">
+                            <i class="fas fa-brain text-blue-600"></i>
+                            <span>Неокортекс (Кора больших полушарий)</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">
+                            Отвечает за рациональное мышление, планирование и принятие решений. Понимает 
+                            важность задач и долгосрочные последствия, но часто проигрывает в борьбе с 
+                            более древними структурами мозга.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Правая колонка: Типы прокрастинации -->
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Основные типы прокрастинации</h2>
+                    
+                    <div class="procrastination-type type-1">
+                        <h3 class="text-xl font-semibold mb-3 text-blue-700">Прокрастинация избегания</h3>
+                        <p class="text-gray-700 mb-3">
+                            Откладывание задач из-за страха неудачи, негативных эмоций или дискомфорта. 
+                            Человек избегает ситуаций, которые могут вызвать стресс или тревогу.
+                        </p>
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <p class="italic text-blue-800 text-sm">
+                                <i class="fas fa-quote-left mr-1"></i>
+                                "Я не хочу начинать, потому что боюсь, что не справлюсь"
+                                <i class="fas fa-quote-right ml-1"></i>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="procrastination-type type-2">
+                        <h3 class="text-xl font-semibold mb-3 text-orange-700">Прокрастинация решений</h3>
+                        <p class="text-gray-700 mb-3">
+                            Откладывание принятия решений из-за страха сделать неправильный выбор. 
+                            Характерна для перфекционистов и людей с высоким уровнем ответственности.
+                        </p>
+                        <div class="bg-orange-100 p-3 rounded-lg">
+                            <p class="italic text-orange-800 text-sm">
+                                <i class="fas fa-quote-left mr-1"></i>
+                                "Я подожду, пока у меня будет больше информации"
+                                <i class="fas fa-quote-right ml-1"></i>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="procrastination-type type-3">
+                        <h3 class="text-xl font-semibold mb-3 text-green-700">Прокрастинация перфекционизма</h3>
+                        <p class="text-gray-700 mb-3">
+                            Откладывание начала или завершения задачи из-за стремления к идеальному результату. 
+                            Страх несовершенства парализует действия.
+                        </p>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <p class="italic text-green-800 text-sm">
+                                <i class="fas fa-quote-left mr-1"></i>
+                                "Я начну, когда буду уверен, что смогу сделать это идеально"
+                                <i class="fas fa-quote-right ml-1"></i>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <div class="flex items-start">
+                            <i class="fas fa-lightbulb text-yellow-600 text-2xl mr-3 mt-1"></i>
+                            <div>
+                                <p class="font-semibold text-yellow-800 mb-2">Важно понимать:</p>
+                                <p class="text-yellow-700 text-sm leading-relaxed">
+                                    Прокрастинация — это не лень, а сложный психологический механизм защиты от дискомфорта. 
+                                    Понимание типа своей прокрастинации — первый шаг к её преодолению.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div class="bg-white rounded-16 p-8 shadow-lg mb-12">
+                <h3 class="text-2xl font-semibold mb-6 text-gray-800">Нейрохимия прокрастинации</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-orange-500">Гормоны стресса:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-circle text-red-400 mr-2 mt-2 text-xs"></i>
+                                <strong>Кортизол</strong> — повышается при мыслях о сложных задачах
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-circle text-red-400 mr-2 mt-2 text-xs"></i>
+                                <strong>Адреналин</strong> — создает ощущение тревоги и напряжения
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-orange-500">Гормоны удовольствия:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-circle text-green-400 mr-2 mt-2 text-xs"></i>
+                                <strong>Дофамин</strong> — выделяется при отвлечениях и развлечениях
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-circle text-green-400 mr-2 mt-2 text-xs"></i>
+                                <strong>Серотонин</strong> — повышается при избегании стресса
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Цикл прокрастинации -->
+            <div class="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-500 rounded-lg p-6 mb-12">
+                <h3 class="text-xl font-semibold mb-4 text-red-800">Порочный цикл прокрастинации:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-tasks text-red-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-red-700">1. Задача</h4>
+                        <p class="text-sm text-red-600">Появляется сложная или неприятная задача</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-exclamation-triangle text-orange-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-orange-700">2. Тревога</h4>
+                        <p class="text-sm text-orange-600">Возникает стресс и дискомфорт</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-yellow-700">3. Откладывание</h4>
+                        <p class="text-sm text-yellow-600">Задача откладывается на потом</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-sad-tear text-red-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-red-700">4. Вина</h4>
+                        <p class="text-sm text-red-600">Усиление стресса и самокритики</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Навигация -->
+            <div class="flex justify-between items-center bg-white rounded-16 p-6 shadow-lg">
+                <a href="definitions.html" class="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Что такое тайм-менеджмент?
+                </a>
+                <a href="techniques.html" class="flex items-center bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    Практические техники
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+    <script src="script.js"></script>
+    <script src="presentation-nav.js"></script>
+</body>
+</html>
+
