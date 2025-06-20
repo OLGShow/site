@@ -1,15 +1,14 @@
 // Система навигации презентации
 class PresentationNavigator {
     constructor() {
-        // Определяем порядок слайдов презентации
         this.slides = [
-            { id: 1, url: 'index.html', title: 'Введение' },
-            { id: 2, url: 'problem-scale.html', title: 'Масштаб проблемы' },
-            { id: 3, url: 'definitions.html', title: 'Определения' },
-            { id: 4, url: 'psychology.html', title: 'Психология прокрастинации' },
-            { id: 5, url: 'techniques.html', title: 'Практические техники' },
-            { id: 6, url: 'implementation.html', title: 'Шаги по внедрению' },
-            { id: 7, url: 'resources.html', title: 'Полезные ресурсы' }
+            { url: 'index.html', title: 'Введение' },
+            { url: 'problem-scale.html', title: 'Масштаб проблемы' },
+            { url: 'definitions.html', title: 'Определения' },
+            { url: 'techniques.html', title: 'Практические техники' },
+            { url: 'psychology.html', title: 'Психология прокрастинации' },
+            { url: 'implementation.html', title: 'Шаги по внедрению' },
+            { url: 'resources.html', title: 'Полезные ресурсы' }
         ];
         
         this.currentSlide = this.getCurrentSlideIndex();
@@ -19,90 +18,115 @@ class PresentationNavigator {
     }
     
     init() {
+        // Проверяем, инициализирована ли навигация уже
+        if (document.body.dataset.presentationNavInitialized) {
+            return; // Если да, выходим
+        }
+        document.body.dataset.presentationNavInitialized = 'true'; // Отмечаем, что инициализирована
+
         this.createNavigationElements();
         this.bindEvents();
         this.updateNavigation();
-        // Убираем показ подсказки при инициализации
     }
     
     getCurrentSlideIndex() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const slideIndex = this.slides.findIndex(slide => slide.url === currentPage);
+        const pageWithoutExt = currentPage.replace('.html', '');
+        const slideIndex = this.slides.findIndex(slide => {
+            const slideUrl = slide.url.replace('.html', '');
+            return slideUrl === pageWithoutExt || slide.url === currentPage;
+        });
         return slideIndex !== -1 ? slideIndex : 0;
     }
     
     createNavigationElements() {
+        // Вместо удаления и повторного создания, будем проверять существование элементов
+        // и создавать их только если они отсутствуют. Это предотвратит потерю стилей.
+
         // Создаем индикатор прогресса
-        const progressIndicator = document.createElement('div');
-        progressIndicator.className = 'progress-indicator';
-        progressIndicator.innerHTML = '<div class="progress-bar-presentation"></div>';
-        document.body.appendChild(progressIndicator);
-        
-        // Создаем номер слайда
-        const slideNumber = document.createElement('div');
-        slideNumber.className = 'slide-number';
-        slideNumber.id = 'slideNumber';
-        document.body.appendChild(slideNumber);
-        
-        // Создаем боковые стрелки
-        const prevArrow = document.createElement('a');
-        prevArrow.className = 'side-nav prev';
-        prevArrow.id = 'prevSlide';
-        prevArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prevArrow.href = '#';
-        document.body.appendChild(prevArrow);
-        
-        const nextArrow = document.createElement('a');
-        nextArrow.className = 'side-nav next';
-        nextArrow.id = 'nextSlide';
-        nextArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        nextArrow.href = '#';
-        document.body.appendChild(nextArrow);
-        
-        // Создаем нижнюю панель навигации
-        const presentationNav = document.createElement('div');
-        presentationNav.className = 'presentation-nav';
-        
-        // Стрелка назад
-        const navPrev = document.createElement('a');
-        navPrev.className = 'nav-arrow';
-        navPrev.id = 'navPrev';
-        navPrev.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        navPrev.href = '#';
-        
-        // Счетчик слайдов
-        const slideCounter = document.createElement('div');
-        slideCounter.className = 'slide-counter';
-        slideCounter.id = 'slideCounter';
-        
-        // Точки навигации
-        const slideDots = document.createElement('div');
-        slideDots.className = 'slide-dots';
-        slideDots.id = 'slideDots';
-        
-        for (let i = 0; i < this.totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'slide-dot';
-            dot.dataset.slide = i;
-            dot.title = this.slides[i].title;
-            slideDots.appendChild(dot);
+        let progressIndicator = document.querySelector('.progress-indicator');
+        if (!progressIndicator) {
+            progressIndicator = document.createElement('div');
+            progressIndicator.className = 'progress-indicator';
+            progressIndicator.innerHTML = '<div class="progress-bar-presentation"></div>';
+            document.body.appendChild(progressIndicator);
         }
         
-        // Стрелка вперед
-        const navNext = document.createElement('a');
-        navNext.className = 'nav-arrow';
-        navNext.id = 'navNext';
-        navNext.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        navNext.href = '#';
+        // Создаем номер слайда
+        let slideNumber = document.querySelector('.slide-number');
+        if (!slideNumber) {
+            slideNumber = document.createElement('div');
+            slideNumber.className = 'slide-number';
+            slideNumber.id = 'slideNumber';
+            document.body.appendChild(slideNumber);
+        }
         
-        presentationNav.appendChild(navPrev);
-        presentationNav.appendChild(slideCounter);
-        presentationNav.appendChild(slideDots);
-        presentationNav.appendChild(navNext);
+        // Создаем боковые стрелки
+        let prevArrow = document.querySelector('.side-nav.prev');
+        if (!prevArrow) {
+            prevArrow = document.createElement('a');
+            prevArrow.className = 'side-nav prev';
+            prevArrow.id = 'prevSlide';
+            prevArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevArrow.href = '#';
+            document.body.appendChild(prevArrow);
+        }
         
-        document.body.appendChild(presentationNav);
+        let nextArrow = document.querySelector('.side-nav.next');
+        if (!nextArrow) {
+            nextArrow = document.createElement('a');
+            nextArrow.className = 'side-nav next';
+            nextArrow.id = 'nextSlide';
+            nextArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextArrow.href = '#';
+            document.body.appendChild(nextArrow);
+        }
         
-        // Убираем создание подсказки по клавишам
+        // Создаем нижнюю панель навигации
+        let presentationNav = document.querySelector('.presentation-nav');
+        if (!presentationNav) {
+            presentationNav = document.createElement('div');
+            presentationNav.className = 'presentation-nav';
+            
+            // Стрелка назад
+            const navPrev = document.createElement('a');
+            navPrev.className = 'nav-arrow';
+            navPrev.id = 'navPrev';
+            navPrev.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            navPrev.href = '#';
+            
+            // Счетчик слайдов
+            const slideCounter = document.createElement('div');
+            slideCounter.className = 'slide-counter';
+            slideCounter.id = 'slideCounter';
+            
+            // Точки навигации
+            const slideDots = document.createElement('div');
+            slideDots.className = 'slide-dots';
+            slideDots.id = 'slideDots';
+            
+            for (let i = 0; i < this.totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'slide-dot';
+                dot.dataset.slide = i;
+                dot.title = this.slides[i].title;
+                slideDots.appendChild(dot);
+            }
+            
+            // Стрелка вперед
+            const navNext = document.createElement('a');
+            navNext.className = 'nav-arrow';
+            navNext.id = 'navNext';
+            navNext.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            navNext.href = '#';
+            
+            presentationNav.appendChild(navPrev);
+            presentationNav.appendChild(slideCounter);
+            presentationNav.appendChild(slideDots);
+            presentationNav.appendChild(navNext);
+            
+            document.body.appendChild(presentationNav);
+        }
     }
     
     bindEvents() {
@@ -154,22 +178,17 @@ class PresentationNavigator {
                     e.preventDefault();
                     this.goToSlide(this.totalSlides - 1);
                     break;
-                case 'Escape':
-                    // Убираем обработку Escape
-                    break;
             }
         });
-        
-        // Убираем показ подсказки при движении мыши
     }
     
     updateNavigation() {
         // Обновляем счетчик слайдов
-        document.getElementById('slideCounter').textContent = 
+        document.getElementById('slideCounter').textContent =
             `${this.currentSlide + 1} / ${this.totalSlides}`;
         
         // Обновляем номер слайда
-        document.getElementById('slideNumber').textContent = 
+        document.getElementById('slideNumber').textContent =
             `Слайд ${this.currentSlide + 1}`;
         
         // Обновляем прогресс-бар
@@ -231,17 +250,10 @@ class PresentationNavigator {
             }, 150);
         }
     }
-    
-    // Убираем методы для работы с подсказкой
 }
 
 // Инициализация навигации презентации при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    // Небольшая задержка для корректной инициализации
-    setTimeout(() => {
-        window.presentationNav = new PresentationNavigator();
-    }, 100);
-    
-    // Убираем вызов showKeyboardHint из инициализации
+    window.presentationNav = new PresentationNavigator();
 });
 
